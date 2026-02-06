@@ -6,7 +6,11 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class AppConfig:
-    test: int
+    delivery_excel: Path
+    excel_suffixes: set[str]
+    supported_filetypes: list[tuple[str, str]]
+    delivery_start_dir: Path
+
 
 def load_config(config_filename: str) -> AppConfig:
     config_path = resource_path(config_filename)
@@ -14,8 +18,11 @@ def load_config(config_filename: str) -> AppConfig:
         c = json.load(f)
 
     return AppConfig(
-        test=1
-    )
+        delivery_excel=Path(c.get("DELIVERY", "Desktop")),
+        excel_suffixes=set(c.get("excel_suffixes", [])),
+        supported_filetypes=[(a, b) for a, b in c.get("supported_filetypes", [])],
+        delivery_start_dir=Path(c.get("delivery_start_dir", "Desktop"))
+    ) 
 
 def resource_path(relative: str) -> Path:
     """

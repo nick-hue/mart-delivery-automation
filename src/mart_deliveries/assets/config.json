@@ -1,3 +1,9 @@
 {
-    
+    "DELIVERY":"C:\\Users\\nangelidis\\Desktop\\A&G\\Applications\\mart_deliveries\\EXPORT_20260206_132132.xlsx",
+    "delivery_start_dir":"G:\\AEBEFILE\\ΜΠΑΚΙΡΑ ΚΙΡΑΝΑ\\MAX STORES (5850)\\ΕΛΛΕΙΨΕΙΣ MAXSTORES\\2026\\",
+    "excel_suffixes": [".xlsx", ".xls"],
+    "supported_filetypes": [
+        ["Excel files", "*.xlsx *.xls"],
+        ["All files", "*.*"]],    
+    "out_excel_format": "ΜΑΧ ΤΡΙΤΩΝ ΕΓΚΡΙΣΗ"
 }

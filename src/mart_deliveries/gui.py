@@ -26,11 +26,10 @@ class MaxGUI(tk.Tk):
         frame = ttk.LabelFrame(self, text="Excel", padding=10)
         frame.pack(fill="x", padx=10, pady=10)
 
-        # self.output_dir = tk.StringVar(value=self.cfg.out_dir_path)
-        
-        self.output_file_path: Path | None = None
+        self.deliveries_excel = tk.StringVar(value=self.cfg.delivery_excel)        
+        self.delivery_excel_path: Path | None = None
 
-        # self._path_row(frame, "Excel Εγκρίσεων:", self.output_dir, self._pick_output_dir)
+        self._path_row(frame, "Excel Delivery (ZAGIH___):", self.deliveries_excel, self._pick_delivery_excel)
 
         # ---- Controls ----
         controls = ttk.Frame(self)
@@ -60,11 +59,10 @@ class MaxGUI(tk.Tk):
         ttk.Entry(row, textvariable=var).pack(side="left", fill="x", expand=True, padx=10)
         ttk.Button(row, text="Browse", command=cmd).pack(side="left")
 
-    def _pick_customer_excel(self):
-        # file = filedialog.askopenfilename(filetypes=self.cfg.supported_filetypes, initialdir=self.cfg.customer_start_dir)
-        # if file:
-        #     self.customer_excel_filename.set(file)
-        pass
+    def _pick_delivery_excel(self):
+        file = filedialog.askopenfilename(filetypes=self.cfg.supported_filetypes, initialdir=self.cfg.delivery_start_dir)
+        if file:
+            self.deliveries_excel.set(file)
     
     def start(self):
         self.run_btn.config(state="disabled")
@@ -75,10 +73,12 @@ class MaxGUI(tk.Tk):
 
     def _run(self):
         try:
+            self.delivery_excel_path = Path(self.deliveries_excel.get())
+            self._log(f"Delivery excel : {self.delivery_excel_path}")
 
-            self._log(f"Τελικό excel : {str(self.output_dir)}")
-            
-            # if self.output_dir:
+            make_excel(delivery_excel=self.delivery_excel_path)
+
+            # if self.deliveries_excel:
             #     self.after(0, self._show_success)
 
 
@@ -105,11 +105,12 @@ def main():
     MaxGUI().mainloop()
     
 def editor():
-    # tmp_cfg = load_config(resource_path("assets/config.json"))
-    # tmp = Path(__file__).resolve().parent
-    # outfile = make_excel(customer_excel=tmp_cfg.customer_path, stock_excel=tmp_cfg.zagih_path, output_dir=tmp, config=tmp_cfg)
+    tmp_cfg = load_config(resource_path("assets/config.json"))
+    tmp = Path(__file__).resolve().parent
+    make_excel(delivery_excel=tmp_cfg.delivery_excel)
+    # outfile = make_excel(delivery_excel=tmp_cfg.delivery_excel)
+    
 
-    pass
     # import os 
     # os.startfile(outfile)
 
